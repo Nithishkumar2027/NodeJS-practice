@@ -2,6 +2,9 @@ const http = require('http')
 const fs = require('fs')
 const url = require('url')
 
+// Port
+const port = 3000
+
 http.createServer((req, res) => {
     const q = url.parse(req.url, true)
     console.log(q)
@@ -27,4 +30,4 @@ http.createServer((req, res) => {
             res.end()
         }
     })
-}).listen(3000, () => console.log('App listening on port 3000'))
+}).listen(port, () => console.log(`App listening on port ${port}`))
