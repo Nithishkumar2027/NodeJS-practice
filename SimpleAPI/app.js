@@ -7,6 +7,14 @@ const app = express()
 // Custom middleware
 app.use(logger)
 
+// Handlebars middleware
+app.engine('handlebars', exphbs({defaultLayout: 'main'}))
+app.set('view engine', 'handlebars')
+
+// Body parser middleware
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
+
 // Homepage route
 app.get('/', (req, res) =>{
     res.send('Hello world')
