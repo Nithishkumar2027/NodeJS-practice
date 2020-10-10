@@ -10,7 +10,7 @@ hosted on port 5000
 >  type "node app" in your terminal inside the directory with "app.js" and then
 >  visit http://localhost:5000/
 
->You can also use API tools like [Postman](hhttps://www.postman.com/) or [Insomnia](https://insomnia.rest/) to test this API
+>You can also use API tools like [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/) to test this API
 
 ### Endpoints
 * To get all members
