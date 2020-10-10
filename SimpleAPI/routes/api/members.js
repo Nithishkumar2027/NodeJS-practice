@@ -3,78 +3,70 @@ const { nanoid } = require('nanoid')
 const router = express.Router()
 
 const members = require('../../Members')
+const idFilter = req => member => member.id === req.params.id
 
-// Get all members
-router.get('/', (req, res) =>{
-    res.json(members)
-})
+// Gets All Members
+router.get('/', (req, res) => res.json(members));
 
-// Get single member
-router.get('/:id', (req, res)=>{
-    const found = members.some(member => member.id === req.params.id)
+// Get Single Member
+router.get('/:id', (req, res) => {
+  const found = members.some(idFilter(req));
 
-    if(found){
-        res.json(members.filter(member => member.id === req.params.id))
-    } else {
-        res.status(400).json({
-            msg: `No member with the id of ${req.params.id} is found`
-        })
-    }
-})
+  if (found) {
+    res.json(members.filter(idFilter(req)));
+  } else {
+    res.status(400).json({ msg: `No member with the id of ${req.params.id}` });
+  }
+});
 
-// Creating a member
-router.post('/', (req, res)=>{
+
+// Create Member
+router.post('/', (req, res) => {
     const newMember = {
         id: nanoid(4),
-        name: req.body.name,
-        email: req.body.email,
-        status: true
+        ...req.body,
+      status: 'active'
+    };
+  
+    if (!newMember.name || !newMember.email) {
+      return res.status(400).json({ msg: 'Please include a name and email' });
     }
-
-    if(!newMember.name || !newMember.email){
-        res.status(400).json({
-            msg: 'Please make sure you include both Name and Email'
-        })
-    }
-    members.push(newMember)
-    console.log(`New member successfully created with id: ${newMember.id}`)
+  
+    members.push(newMember);
     res.json({ msg: `${newMember.name} member is created`, members})
-})
-
-// Updating a member
-router.put('/:id', (req, res)=>{
-    const found = members.some(member => member.id === req.params.id)
-
-    if(found){
-        const updateMember = req.body
-        members.forEach(member => {
-            if(member.id === req.params.id){
-                member.name = updateMember.name ? updateMember.name : member.name
-                member.email = updateMember.email ? updateMember.email : member.email
-                console.log('Member updated')
-                res.json({ msg: 'Member updated', member})
-            }
-        })
+    // res.redirect('/');
+  });
+  
+  // Update Member
+  router.put('/:id', (req, res) => {
+    const found = members.some(idFilter(req));
+  
+    if (found) {
+      members.forEach((member, i) => {
+        if (idFilter(req)(member)) {
+  
+          const updMember = {...member, ...req.body};
+          members[i] = updMember
+          res.json({ msg: 'Member updated', updMember });
+        }
+      });
     } else {
-        res.status(400).json({
-            msg: `No member with the id of ${req.params.id} found`
-        })
+      res.status(400).json({ msg: `No member with the id of ${req.params.id}` });
     }
-})
-
-// Deleting a member
-router.delete('/:id', (req, res)=>{
-    const found = members.some(member => member.id === req.params.id)
-    if(found){
-        res.json({
-            msg: 'Member deleted',
-            members: members.filter(member => member.id !== req.params.id)  
-        })
+  });
+  
+  // Delete Member
+  router.delete('/:id', (req, res) => {
+    const found = members.some(idFilter(req));
+  
+    if (found) {
+      res.json({
+        msg: 'Member deleted',
+        members: members.filter(member => !idFilter(req)(member))
+      });
     } else {
-        res.status(400).json({
-            msg: `No member with the id of ${req.params.id} is found`
-        })
+      res.status(400).json({ msg: `No member with the id of ${req.params.id}` });
     }
-})
-
+  });
+  
 module.exports = router
