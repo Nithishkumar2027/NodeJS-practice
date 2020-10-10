@@ -1,6 +1,7 @@
 const express = require('express')
 const logger = require('./middleware/logger')
 const exphbs = require('express-handlebars')
+const members = require('./Members')
 
 const app = express()
 
@@ -17,8 +18,14 @@ app.use(express.urlencoded({extended: false}))
 
 // Homepage route
 app.get('/', (req, res) =>{
-    res.send('Hello world')
+    res.render('index', {
+        title: 'Member App',
+        members
+    })
 })
+
+// Members API route
+app.use('/api/members', require('./routes/api/members'))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}/`))
