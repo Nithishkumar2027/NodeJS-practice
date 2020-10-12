@@ -1,0 +1,27 @@
+<div class="createMessage">
+    <form class="form" action="/create-message" method="POST">
+        <div class="text-center mb-4">
+            <h1 class="h3 mb-3 font-weight-normal">{{title}}</h1>
+        </div>
+
+        <div class="form-label-group">
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required
+                autofocus>
+            <label for="username">Enter Username</label>
+        </div>
+
+        <div class="form-label-group">
+            <input type="text" id="message" name="message" class="form-control" placeholder="Message" required>
+            <label for="message">Enter message</label>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Post new message</button>
+        <button type="button" class="btn btn-light btn-block mt-5 mb-3 text-center" onclick="goBack()">🔙 Go back
+            🔙</button>
+    </form>
+</div>
+<script>
+    function goBack() {
+        window.history.back()
+    }
+</script>
