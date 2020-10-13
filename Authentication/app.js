@@ -88,4 +88,11 @@ app.post(
     })
 )
 
+// Signout route
+app.get('/signout',(req, res) => {
+    req.logout()
+    console.log('Successfully logged out')
+    res.redirect('/')
+})
+
 app.listen(port, () => console.log(`Server running at http://localhost:${port}/`))
