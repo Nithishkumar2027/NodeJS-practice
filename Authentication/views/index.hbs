@@ -1,5 +1,10 @@
 {{#if user}}
 <h1>Welcome back {{user.username}}</h1>
+
+<a href="/signout">
+    <button type="submit">Sign out</button>
+</a>
+
 {{else}}
 <h3>Please Sign in to continue</h3>
 <form action="/signin" method="POST">
