@@ -62,7 +62,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.urlencoded({extended: false}))
 
-app.get('/', (req, res) => res.render('index', { title: 'Authentication'}))
+app.get('/', (req, res) => res.render('index', { user: req.user}))
 
 // Signup routes
 app.get('/signup', (req, res) => res.render(('signup'), {title: 'Signup'}))
@@ -79,5 +79,13 @@ app.post('/signup', (req, res, next) => {
     })
 })
 
+// Signin routes
+app.post(
+    '/signin',
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/"
+    })
+)
 
 app.listen(port, () => console.log(`Server running at http://localhost:${port}/`))
