@@ -15,9 +15,18 @@ app.get('/api', (req, res) => {
 })
 
 app.post('/api/posts', verifyToken ,(req, res) => {
-    res.json({
-        message: 'Post created 🤗'
+    jwt.verify(req.token, 'secretkey', (err, authData)=>{
+        if(err) {
+            res.sendStatus(400)
+        } else {
+            res.json({
+                message: 'Post created 🤗',
+                authData: authData,
+
+            })
+        }
     })
+    
 })
 
 app.post('/api/login', (req, res) => {
