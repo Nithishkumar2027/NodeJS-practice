@@ -21,8 +21,7 @@ app.post('/api/posts', verifyToken ,(req, res) => {
         } else {
             res.json({
                 message: 'Post created 🤗',
-                authData: authData,
-
+                authData,
             })
         }
     })
@@ -37,9 +36,9 @@ app.post('/api/login', (req, res) => {
         email: 'kumar@gmail.com'
     }
 
-    jwt.sign({user: user}, 'secretkey', (err, token) =>{
+    jwt.sign({user}, 'secretkey', (err, token) =>{
         res.json({
-            token: token
+            token
         })
     })
 })
