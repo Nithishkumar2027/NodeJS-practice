@@ -14,7 +14,7 @@ app.get('/api', (req, res) => {
     })
 })
 
-app.post('/api/posts', (req, res) => {
+app.post('/api/posts', verifyToken ,(req, res) => {
     res.json({
         message: 'Post created 🤗'
     })
@@ -34,5 +34,29 @@ app.post('/api/login', (req, res) => {
         })
     })
 })
+
+// FORMAT OF TOKEN
+// Authorization: Bearer <access_token>
+
+// Verifying token
+function verifyToken(req, res, next) {
+    // Get the Auth header value
+    const bearerHeader = req.headers['authorization']
+    // Checking if bearer is undefined
+    if(typeof bearerHeader !== 'undefined'){
+        // Split at the space in token
+        const bearer = bearerHeader.split(' ')
+
+        // Get token from array
+        const bearerToken = bearer[1]
+        req.token = bearerToken
+        next()
+    } else {
+        res.status(400).json({
+            //Forbidden message
+            msg: 'Forbidden 🚫'
+        })
+    }
+}
 
 app.listen(port, () => console.log(`Server started at port ${port}`))
