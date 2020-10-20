@@ -5,3 +5,14 @@ mongoose.connect('mongodb://localhost:27017/task-api', {
     useNewUrlParser: true,
     useCreateIndex: true
 })
+
+// Model creation
+const User = mongoose.model('User', {
+    name: {
+        type: String
+    },
+    age: {
+        type: Number
+    }
+})
+
