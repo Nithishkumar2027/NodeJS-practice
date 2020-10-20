@@ -23,7 +23,7 @@ const me = new User({
     age: 18
 })
 
-// me.save().then( result => console.log(result)).catch(err => console.log(`Error: ${err}`))
+me.save().then( result => console.log(result)).catch(err => console.log(`Error: ${err}`))
 
 // Challenge
 // Goal: Create a model for tasks
