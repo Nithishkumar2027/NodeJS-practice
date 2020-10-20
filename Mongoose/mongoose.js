@@ -16,3 +16,10 @@ const User = mongoose.model('User', {
     }
 })
 
+// Creating a document
+const me = new User({
+    name: 'John',
+    age: 18
+})
+
+me.save().then( result => console.log(result)).catch(err => console.log(`Error: ${err}`))
