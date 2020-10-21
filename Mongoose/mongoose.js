@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { model } = require('../Authentication/models/user')
+const validator = require('validator')
 
 // Establishing connection
 mongoose.connect('mongodb://localhost:27017/task-api', {
@@ -7,20 +7,45 @@ mongoose.connect('mongodb://localhost:27017/task-api', {
     useCreateIndex: true
 })
 
-// Model creation
-const User = mongoose.model('User', {
+// Schema for users
+const userSchema = new mongoose.Schema({
     name: {
-        type: String
+        type: String,
+        required: true,
+        trim: true,
     },
-    age: {
-        type: Number
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(value){
+            if(!validator.isEmail(value)) {
+                throw new Error('Email is invalid')
+            }
+        }
+    },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 7,
+        validate(value){
+            if(value.includes('password')){
+                throw new mongoose.Error('Password cannot contain password. Try unique one')
+            }
+        }
     }
 })
 
-// Creating a document
+// User Model creation
+const User = mongoose.model('User', userSchema)
+
+// Creating user document
 const me = new User({
     name: 'John',
-    age: 18
+    email: 'hellow@gmail.com',
+    password: 'notapass word'
 })
 
 me.save().then( result => console.log(result)).catch(err => console.log(`Error: ${err}`))
