@@ -51,21 +51,21 @@ const me = new User({
 me.save().then( result => console.log(result)).catch(err => console.log(`Error: ${err}`))
 
 // Challenge
-// Goal: Create a model for tasks
-// 1. Define the model with description and completed tasks
-// 2. Create a new instance of the model
-// 3. Save the model to the database
-// 4. Test your work
+// Goal: Add validation and sanitization to task
+// 1. Trim the description and make it requried
+// 2. Make completed optional and fix default value to false
+// 3. Test your work with and without error
 
 // Schema for tasks
 const taskSchema = new mongoose.Schema({
     description: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     completed: {
         type: Boolean,
-        required: true
+        default: false
     }
 })
 
