@@ -33,3 +33,11 @@ add(1,2).then((sum) => {
     console.log(err)
 })
 
+// With Promise chaining
+add(1,5).then(sum => {
+    console.log('With Promise chaining')
+    console.log('Sum: ',sum)
+    return add(sum, 4)
+}).then(sum2 => {
+    console.log('Sum 2: ',sum2)
+}).catch(err => console.log('Error: ',err))
