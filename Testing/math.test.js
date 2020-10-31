@@ -1,4 +1,4 @@
-const { calculateTip } = require('./tip')
+const { calculateTip } = require('./math')
 
 // Using conditions
 test('Should calculate total with tip', () => {
